@@ -1,0 +1,35 @@
+#root {
+  max-width: 1280px;
+  /* max-height: 80vh; */
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.App {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+  
+}
+.Panel {
+  flex: 0 1 auto;
+}
+.leftPanel {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 0.1rem;
+  font-size: 1.5rem;
+
+}
+.leftPanel em {
+  font-weight: 900;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
