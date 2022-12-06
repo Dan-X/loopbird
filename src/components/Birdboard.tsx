@@ -12,10 +12,7 @@ import ifIntersect from '../utils/ifIntersect'
 import classes from './BirdBoard.module.css'
 
 interface Props {
-
 }
-
-
 
 export const Birdboard = (props: Props) => {
 
@@ -30,12 +27,11 @@ export const Birdboard = (props: Props) => {
 
 
   const [gameOver, setGameOver] = useState(false);
-  const [newStart, setNewStart] = useState(true);
   const [updating, setIsUpdating] = useState(true);
   const [score, setScore] = useState(0);
 
   const {
-    bird, drawBird, resetBird, updateBird, ctlKeydownHdl, birdX
+    bird, cleanBird, drawBird, resetBird, updateBird, ctlKeydownHdl, birdX
   } = useBird(boardSize, canvasRef, pixelSize)
 
   const {
@@ -51,8 +47,9 @@ export const Birdboard = (props: Props) => {
   }, [resetBird])
 
   useEffect(() => {
-    drawBird(canvasRef, bird, pixelSize, true);
-    drawDNA(canvasRef, dnas, loopedDna, pixelSize);
+    
+    drawDNA(canvasRef, dnas, loopedDna, pixelSize, velocity, true);
+    drawBird(canvasRef, bird, pixelSize, cleanBird);
   })
   useEffect(() => {
     const interval = setInterval(() => {
@@ -71,11 +68,10 @@ export const Birdboard = (props: Props) => {
           })
           const score = newLoops.filter((value) => value).length;
           setScore(score)
-          if (score == 5) setVelocity(3);
+          if (score == 5) setVelocity(2);
           if (score == 10) setGameOver(true);
           return newLoops;
         })
-        // console.log("bird:", bird)
 
         updateBird(boardSize);
         updateDnas(boardSize);
@@ -117,10 +113,6 @@ export const Birdboard = (props: Props) => {
   return (
     <div>
       <div>
-        {/* <input type="checkbox" id="scales" name="scales"
-          onChange={() => { setIsUpdating(prev => !prev) }}
-          checked={updating} />
-        <label htmlFor="scales">On</label> */}
       </div>
       <canvas id="snakeboard" ref={canvasRef} width={canvasSize} height={canvasSize} style={canvasStyle} />
       <p>score: {score} </p>

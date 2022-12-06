@@ -17,8 +17,18 @@ const defaultParameters = {
 const dnaColor = '#000000';
 const loopColor = '#cc0000';
 
-const getFullDna = (dna:[number, number]) => [dna, [dna[0]+1, dna[1]], [dna[0]+2, dna[1]], [dna[0]+3, dna[1]],[dna[0]+4, dna[1]],[dna[0]+5, dna[1]]]
-const getLoopedDNA = (dna:[number, number]) => [
+const getFullDna = (dna:[number, number]): [number, number][] => [
+  dna, 
+  [dna[0]+1, dna[1]], 
+  [dna[0]+2, dna[1]], 
+  [dna[0]+3, dna[1]],
+  [dna[0]+4, dna[1]],
+  [dna[0]+5, dna[1]],
+  [dna[0]+6, dna[1]],
+  [dna[0]+7, dna[1]],
+  [dna[0]+8, dna[1]],
+]
+const getLoopedDNA = (dna:[number, number]): [number, number][] => [
   dna, 
   [dna[0]+1, dna[1]], 
   [dna[0]+2, dna[1]],
@@ -47,6 +57,7 @@ const drawDNA = (
   dnas: [number, number][],
   dnaLoops: boolean[],
   pixelSize: number,
+  velocity: number,
   clear: boolean=false
 ) => {
   if (!canvasRef.current) return;
@@ -55,13 +66,24 @@ const drawDNA = (
   if (!ctx) return;
   
   clear && ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
+
+ 
+
   dnas
   .map((dna, idx) => dnaLoops[idx]? getLoopedDNA(dna) : getFullDna(dna))
   .forEach((dna, idx) => dna.forEach(block => {
     ctx.fillStyle = dnaLoops[idx]? loopColor : dnaColor;
     ctx.fillRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
   }))
+
+
+  // blocksToRemove.forEach(block => {
+  //   ctx.fillStyle = '#00ee00';
+  //   ctx.fillRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
+  // })
+  // dnas.forEach((dna, idx) =>{
+  //   ctx.clearRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
+  // })
   
 }
 

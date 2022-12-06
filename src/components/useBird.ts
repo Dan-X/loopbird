@@ -6,6 +6,7 @@ const defaultBird = {
   y: 25,
   gameOver: false,
 }
+const upStep = 10;
 const birdColor = '#377eb8';
 const drawBird = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
@@ -19,15 +20,16 @@ const drawBird = (
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   
-  clear && ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = birdColor;
-  ctx.fillRect(bird[0] * pixelSize, (bird[1]-1) * pixelSize, pixelSize, pixelSize)
-  ctx.fillRect(bird[0] * pixelSize, bird[1] * pixelSize, pixelSize, pixelSize)
   
+  ctx.fillStyle = birdColor;
+  ctx.clearRect(bird[0] * pixelSize, (bird[1]-1) * pixelSize, pixelSize, pixelSize)
+  ctx.fillRect(bird[0] * pixelSize, bird[1] * pixelSize, pixelSize, pixelSize)
+  clear && ctx.clearRect(bird[0] * pixelSize, bird[1]+10 * pixelSize, pixelSize, pixelSize);
 }
 
 export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvasElement>, pixelSize: number) => {
   const [bird, setBird] = useState(defaultBird.y);
+  const [cleanup, setCleanup] = useState(false)
   // const [canUp, setCanUp] = useState(false);
 
   const resetBird= useCallback(() => {
@@ -40,7 +42,11 @@ export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
       case "ArrowUp":
       case " ":
       case "w":
-        setBird(prev => prev === 0 ? prev : prev-10)
+        setBird(prev => {
+          setCleanup(true)
+          return prev === 0 ? prev : prev-upStep
+        })
+        
         // setCanUp(false);
         break;
     }
@@ -60,11 +66,11 @@ export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
   }, [ctlKeydownHdl])
 
   const updateBird = useCallback((boardSize:number, stepsize: number = 1) => { //walls:[[number, number],[number, number]], 
-    
     setBird(prev => (prev+stepsize > boardSize) ? boardSize-1 : prev+stepsize)
+    setCleanup(false)
   },[])
 
-  return { bird, drawBird, resetBird, updateBird, ctlKeydownHdl, birdX: defaultBird.x}
+  return { bird, cleanBird: cleanup, drawBird, resetBird, updateBird, ctlKeydownHdl, birdX: defaultBird.x}
 
 
 }
