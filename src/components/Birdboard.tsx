@@ -115,7 +115,7 @@ export const Birdboard = (props: Props) => {
       <div>
       </div>
       <canvas id="snakeboard" ref={canvasRef} width={canvasSize} height={canvasSize} style={canvasStyle} />
-      <p>score: {score} </p>
+      <p>score: <em>{score}</em> </p>
 
       {gameOver && score === 10 && (
         <div className={classes.gameoverbox}>
