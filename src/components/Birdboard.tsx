@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-// import { useSnake } from './useSnake';
-// import { useWalls } from './useWalls';
 
-// import {usePathfinding} from './usePathfinding';
 import { useWindowSize } from '../hooks/useWindowSize';
 import { useBird } from './useBird';
 import { useDNAs } from './useDNAs';
@@ -47,7 +44,6 @@ export const Birdboard = (props: Props) => {
   }, [resetBird])
 
   useEffect(() => {
-    
     drawDNA(canvasRef, dnas, loopedDna, pixelSize, velocity, true);
     drawBird(canvasRef, bird, pixelSize, cleanBird);
   })
@@ -62,7 +58,7 @@ export const Birdboard = (props: Props) => {
             if (looped) return true;
             const C = [dnas[idx][0] - 2, dnas[idx][1]] as [number, number];
             const D = [dnas[idx][0] + 7, dnas[idx][1]] as [number, number];
-            // console.log(A,B,C,D)
+
             ifIntersect([A, B], [C, D]) && console.log("touch!!")
             return ifIntersect([A, B], [C, D])
           })
@@ -81,7 +77,6 @@ export const Birdboard = (props: Props) => {
       clearInterval(interval);
     };
   }, [bird, dnas, velocity, updating, updateBird, setVelocity, setGameOver]);
-
 
   const keydownHdl = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
@@ -119,7 +114,6 @@ export const Birdboard = (props: Props) => {
 
       {gameOver && score === 10 && (
         <div className={classes.gameoverbox}>
-          
           <p style={{ color: "white", fontSize: '64px' }}>Congratulations!</p>
           <p style={{ color: "white", fontSize: '32px' }}>🥳🍻🥂🍾🎊🎉🪅🥳🍻🥂🍾🎊🎉🪅🥳🍻🥂🍾🎊🎉🪅</p>
           <p style={{ color: "white", fontSize: '32px' }}>Your gift is in the cupboard behind the TU coffee machine in BN Kitchen </p>
@@ -127,8 +121,6 @@ export const Birdboard = (props: Props) => {
           <p style={{ color: "white", fontSize: '32px' }}>Press ESC to restart</p>
         </div>
       )}
-
     </div>
-
   )
 }

@@ -4,7 +4,6 @@ import { Birdboard } from './components/Birdboard';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <div className="App">
@@ -17,7 +16,6 @@ function App() {
           <p>make 10 loops to get your gift!</p>
       </div>
       <div className='Panel'>
-        
         <Birdboard  />
       </div>
       

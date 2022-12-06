@@ -1,40 +1,40 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from "react";
 
 const defaultBird = {
   velocity: 2,
-  x:50,
+  x: 50,
   y: 25,
   gameOver: false,
-}
+};
 const upStep = 10;
-const birdColor = '#377eb8';
+const birdColor = "#377eb8";
+
 const drawBird = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   birdY: number,
   pixelSize: number,
-  clear: boolean=false
+  clear: boolean = false
 ) => {
   const bird = [defaultBird.x, birdY];
   if (!canvasRef.current) return;
   const canvas = canvasRef.current;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   if (!ctx) return;
-  
-  
+
   ctx.fillStyle = birdColor;
-  ctx.clearRect(bird[0] * pixelSize, (bird[1]-1) * pixelSize, pixelSize, pixelSize)
-  ctx.fillRect(bird[0] * pixelSize, bird[1] * pixelSize, pixelSize, pixelSize)
-  clear && ctx.clearRect(bird[0] * pixelSize, bird[1]+10 * pixelSize, pixelSize, pixelSize);
-}
+  ctx.clearRect(bird[0] * pixelSize, (bird[1] - 1) * pixelSize, pixelSize, pixelSize);
+  ctx.fillRect(bird[0] * pixelSize, bird[1] * pixelSize, pixelSize, pixelSize);
+  clear && ctx.clearRect(bird[0] * pixelSize, bird[1] + 10 * pixelSize, pixelSize, pixelSize);
+};
 
 export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvasElement>, pixelSize: number) => {
   const [bird, setBird] = useState(defaultBird.y);
-  const [cleanup, setCleanup] = useState(false)
+  const [cleanup, setCleanup] = useState(false);
   // const [canUp, setCanUp] = useState(false);
 
-  const resetBird= useCallback(() => {
+  const resetBird = useCallback(() => {
     setBird(defaultBird.y);
-  }, [])
+  }, []);
 
   const ctlKeydownHdl = useCallback((e: KeyboardEvent) => {
     // if (!canUp) return;
@@ -42,56 +42,56 @@ export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
       case "ArrowUp":
       case " ":
       case "w":
-        setBird(prev => {
-          setCleanup(true)
-          return prev === 0 ? prev : prev-upStep
-        })
-        
-        // setCanUp(false);
+        setBird((prev) => {
+          setCleanup(true);
+          return prev === 0 ? prev : prev - upStep;
+        });
         break;
     }
-  }, []) // canUp
-
+  }, []);
 
   const tapHdl = useCallback((e: TouchEvent) => {
     // if (!canUp) return;
-    if(e.type === 'touchstart'){
+    if (e.type === "touchstart") {
       // console.log("touched!")
-      setBird(prev => {
-        setCleanup(true)
-        return prev === 0 ? prev : prev-upStep
-      })
-      
+      setBird((prev) => {
+        setCleanup(true);
+        return prev === 0 ? prev : prev - upStep;
+      });
     }
-  }, []) // canUp
+  }, []); // canUp
 
   // useEffect(() => {
   //   drawBird(canvasRef, [defaultBird.x, bird], pixelSize);
   // })
 
-
   useEffect(() => {
-    window.addEventListener('keydown', ctlKeydownHdl);
+    window.addEventListener("keydown", ctlKeydownHdl);
 
     return () => {
-      window.removeEventListener('keydown', ctlKeydownHdl);
+      window.removeEventListener("keydown", ctlKeydownHdl);
     };
-  }, [ctlKeydownHdl])
+  }, [ctlKeydownHdl]);
 
   useEffect(() => {
-    window.addEventListener('touchstart', tapHdl);
+    window.addEventListener("touchstart", tapHdl);
 
     return () => {
-      window.removeEventListener('touchstart', tapHdl);
+      window.removeEventListener("touchstart", tapHdl);
     };
-  }, [ctlKeydownHdl])
+  }, [ctlKeydownHdl]);
 
-  const updateBird = useCallback((boardSize:number, stepsize: number = 1) => { //walls:[[number, number],[number, number]], 
-    setBird(prev => (prev+stepsize > boardSize) ? boardSize-1 : prev+stepsize)
-    setCleanup(false)
-  },[])
+  const updateBird = useCallback((boardSize: number, stepsize: number = 1) => {
+    setBird((prev) => (prev + stepsize > boardSize ? boardSize - 1 : prev + stepsize));
+    setCleanup(false);
+  }, []);
 
-  return { bird, cleanBird: cleanup, drawBird, resetBird, updateBird, ctlKeydownHdl, birdX: defaultBird.x}
-
-
-}
+  return { 
+    bird, 
+    cleanBird: cleanup, 
+    drawBird, 
+    resetBird, 
+    updateBird, 
+    ctlKeydownHdl, 
+    birdX: defaultBird.x };
+};

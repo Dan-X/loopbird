@@ -39,7 +39,6 @@ const getLoopedDNA = (dna:[number, number]): [number, number][] => [
   
   [dna[0]+4, dna[1]-1], 
 
-
   [dna[0]+3, dna[1]-2], 
   [dna[0]+5, dna[1]-2],
 
@@ -52,6 +51,7 @@ const getLoopedDNA = (dna:[number, number]): [number, number][] => [
   [dna[0]+7, dna[1]],
   [dna[0]+8, dna[1]],
 ]
+
 const drawDNA = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   dnas: [number, number][],
@@ -64,10 +64,8 @@ const drawDNA = (
   const canvas = canvasRef.current;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
-  
-  clear && ctx.clearRect(0, 0, canvas.width, canvas.height);
 
- 
+  clear && ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   dnas
   .map((dna, idx) => dnaLoops[idx]? getLoopedDNA(dna) : getFullDna(dna))
@@ -75,23 +73,12 @@ const drawDNA = (
     ctx.fillStyle = dnaLoops[idx]? loopColor : dnaColor;
     ctx.fillRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
   }))
-
-
-  // blocksToRemove.forEach(block => {
-  //   ctx.fillStyle = '#00ee00';
-  //   ctx.fillRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
-  // })
-  // dnas.forEach((dna, idx) =>{
-  //   ctx.clearRect(block[0] * pixelSize, block[1] * pixelSize, pixelSize, pixelSize)
-  // })
-  
 }
 
 export const useDNAs = (boardSize: number, canvasRef: React.RefObject<HTMLCanvasElement>, pixelSize: number) => {
   const [velocity, setVelocity] = useState(defaultParameters.velocity);
   const [dnas, setDnas] = useState(defaultParameters.dnas);
   const [loopedDna, setLoopedDna] = useState(defaultParameters.looped)
-  // const [canUp, setCanUp] = useState(false);
 
   const resetDna= useCallback(() => {
     setVelocity(defaultParameters.velocity);
@@ -101,19 +88,10 @@ export const useDNAs = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
     setVelocity(1);
   }, [])
 
-  
-
-  // useEffect(() => {
-  //   drawDNA(canvasRef, dnas, pixelSize);
-  // })
-
-
   const updateDnas = useCallback((boardSize:number, stepsize: number = 1) => { //walls:[[number, number],[number, number]], 
     setDnas(prev => prev.map(dna=>dna[0]-velocity >= 0 ? [dna[0]-velocity, dna[1]] :  [boardSize+1+(dna[0]-velocity), dna[1]])
     )
   },[velocity])
 
   return { dnas, loopedDna, velocity, setLoopedDna, drawDNA, resetDna, updateDnas, setVelocity}
-
-
 }
