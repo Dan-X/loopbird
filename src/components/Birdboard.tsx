@@ -9,7 +9,7 @@ import { useDNAs } from './useDNAs';
 
 import ifIntersect from '../utils/ifIntersect'
 
-import classes from './BirdBoard.module.css'
+import classes from './Birdboard.module.css'
 
 interface Props {
 }
