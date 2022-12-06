@@ -52,6 +52,19 @@ export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
     }
   }, []) // canUp
 
+
+  const tapHdl = useCallback((e: TouchEvent) => {
+    // if (!canUp) return;
+    if(e.type === 'touchstart'){
+      // console.log("touched!")
+      setBird(prev => {
+        setCleanup(true)
+        return prev === 0 ? prev : prev-upStep
+      })
+      
+    }
+  }, []) // canUp
+
   // useEffect(() => {
   //   drawBird(canvasRef, [defaultBird.x, bird], pixelSize);
   // })
@@ -62,6 +75,14 @@ export const useBird = (boardSize: number, canvasRef: React.RefObject<HTMLCanvas
 
     return () => {
       window.removeEventListener('keydown', ctlKeydownHdl);
+    };
+  }, [ctlKeydownHdl])
+
+  useEffect(() => {
+    window.addEventListener('touchstart', tapHdl);
+
+    return () => {
+      window.removeEventListener('touchstart', tapHdl);
     };
   }, [ctlKeydownHdl])
 
