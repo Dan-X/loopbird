@@ -116,7 +116,7 @@ export const Birdboard = (props: Props) => {
         <div className={classes.gameoverbox}>
           <p style={{ color: "white", fontSize: '64px' }}>Congratulations!</p>
           <p style={{ color: "white", fontSize: '32px' }}>🥳🍻🥂🍾🎊🎉🪅🥳🍻🥂🍾🎊🎉🪅🥳🍻🥂🍾🎊🎉🪅</p>
-          <p style={{ color: "white", fontSize: '32px' }}>Your gift is in *** </p>
+          <p style={{ color: "white", fontSize: '32px' }}>Well done!! but too late for the gift! See you next year! </p>
           <p style={{ color: "white", fontSize: '64px' }}></p>
           <p style={{ color: "white", fontSize: '32px' }}>Press ESC to restart</p>
         </div>
