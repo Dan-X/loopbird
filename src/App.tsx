@@ -14,6 +14,7 @@ function App() {
           <p></p>
           <p>move the protein on DNA to make loops</p>
           <p>make 10 loops to get your gift!</p>
+          <p>source code see <a target="_blank" href="https://github.com/Dan-X/loopbird">Github</a> </p>
       </div>
       <div className='Panel'>
         <Birdboard  />
